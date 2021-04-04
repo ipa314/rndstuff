@@ -1,0 +1,21 @@
+function [vmax vmin]=mvlookup(datalist,collook)
+
+    colleft=find(1:size(datalist,2)~=collook);
+    lcolleft=length(colleft);
+    udatalist=unique(datalist(:,colleft),'rows');
+    sudatalist=size(udatalist,1);
+    ludatalist=size(udatalist,2);
+
+    mindata=zeros(sudatalist,ludatalist+1);
+    maxdata=zeros(sudatalist,ludatalist+1);
+    for i=1:sudatalist
+        tmpindx=find(sum(datalist(:,colleft)==udatalist(i,:),2)==lcolleft);
+        tmpmax=unique(max(datalist(tmpindx,collook)));
+        tmpmin=unique(min(datalist(tmpindx,collook)));
+        mindata(i,:)=[udatalist(i,:) tmpmin];
+        maxdata(i,:)=[udatalist(i,:) tmpmax];
+
+    end
+    vmin=mindata;
+    vmax=maxdata;
+end
